@@ -1,0 +1,47 @@
+MMS
+
+Suscripcion a un servicio sincrono en donde se hace el envio de N imagenes (objetos)
+por dia.
+
+
+
+
+La idea es mandar la foto de las modelos mas eficiente.
+
+
+- El desarrollo esta unicamente para tigo (comcel)
+- 
+
+	- Que tipo de archivos se pueden enviar
+		* Imagenes de modelos
+		* Videos
+
+        +ENVIO CON EL PROVEEDOR
+	- Tamaño de los objetos
+		* Consultar con el proveedor los tamaños recomendables (en kb)
+		* A cuantos telefonos podemos enviarlos
+		* Restrucciones de cuanto se puede enviar al proveedor (en carga de archivos)
+		* hora de envio
+		* Negociacion de precio por hora en que enviaremos el mensaje
+		* Formatos
+		* Tiempo de vida de un mensaje
+		* Informacion relacionada con las marcas y modelos de los telefonos mas vendidos
+
+
+	* Pruebas de recepcion de objetos
+		* Todas las lineas de Smarthphones
+		* 
+	* Graficas de aplicaciones
+		* Que aparatos se conectan
+		* 
+
++ TIGO, NOVIL se comunica mediante MM7.
+* formato smil
+
+
+
+Jose Ramos:
+Actualización de la base de datos wurlf
+
+Informacion de los dispositivos de telefono		
+

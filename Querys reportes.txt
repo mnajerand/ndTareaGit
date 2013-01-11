@@ -1,0 +1,65 @@
+
+DISTRIBUCION POR DISTRITO
+
+select rou.name, dch.name,sum(odet.quantity) as cantidad
+from circulacion.order od, address ad, route rou, order_detail odet, detail_type dty, suscription sus, suscription_detail sdet, distribution_channel dch
+where od.idaddress=ad.idaddress
+and dch.iddistribution_channel=sdet.iddistribution_channel
+and sus.idsuscription=sdet.idsuscription
+and od.idsuscription=sdet.idsuscription_detail
+and rou.idroute=ad.idroute
+and od.idorder_state<>'3'
+and dty.iddetail_type=odet.iddetail_type
+and odet.idorder=od.idorder
+and od.edition_date='20121211'
+and od.idsuscription is not null
+group by rou.name, dch.name
+order by rou.name, dch.name asc;
+
+DISTRIBRIBUICION POR RUTA:
+
+select pty.name,car.name,rou.name,sum(od.total_items) as cantidad from circulacion.order od, address ad, route rou, carrier car, publication_type pty
+where od.idaddress=ad.idaddress
+and od.idpublication_type=pty.idpublication_type
+and od.idsuscription is not null
+and od.edition_date='20121208'
+and rou.idroute=ad.idroute
+and rou.idcarrier=car.idcarrier
+group by pty.name,car.name,rou.name;
+
+
+
+PAGOS:
+
+select date_format(mov.date_movement,'%d/%m/%Y') as date_movement,mty.name as money_type,
+bak.name as bank_name,concat(inv.invoice_serie,'-',inv.invoice_number) as invoice,
+date_format(inv.invoice_date,'%d/%m/%Y') as invoice_date,cus.code,
+if(cus.persona='Juridica',cus.company_name,concat(cus.firstname,' ',cus.lastname)) as customer_name,
+mfl.document_number,mov.idmovement,mfl.amount
+from movement mov, money_flow mfl,suscription sus, invoice inv,money_type mty, bank bak, customer cus
+where mov.idmovement=mfl.idmovement
+and mfl.idbank=bak.idbank
+and mov.idcustomer=cus.idcustomer
+and mty.idtype_money=mfl.idtype_money
+and sus.idmovement=mov.idmovement
+and inv.idinvoice=sus.idinvoice
+and mov.date_movement between '20121201' and '20121231'
+union all
+select date_format(mov.date_movement,'%d/%m/%Y') as date_movement,mty.name as money_type,
+' ' as bank_name,concat(inv.invoice_serie,'-',inv.invoice_number) as invoice,
+date_format(inv.invoice_date,'%d/%m/%Y') as invoice_date,cus.code,
+if(cus.persona='Juridica',cus.company_name,concat(cus.firstname,' ',cus.lastname)) as customer_name,
+mfl.document_number,mov.idmovement,mfl.amount
+from movement mov, money_flow mfl,suscription sus, invoice inv,money_type mty, customer cus
+where mov.idmovement=mfl.idmovement
+and mov.idcustomer=cus.idcustomer
+and mty.idtype_money=mfl.idtype_money
+and sus.idmovement=mov.idmovement
+and inv.idinvoice=sus.idinvoice
+and mfl.idtype_money='5'
+and mov.date_movement between '20121201' and '20121231'
+order by date_movement,idmovement,money_type asc;
+
+
+
+
